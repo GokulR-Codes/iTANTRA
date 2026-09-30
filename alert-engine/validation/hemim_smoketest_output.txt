@@ -1,0 +1,46 @@
+=== HEMIM V1-V3 runtime smoke test ===
+PASS: 'There is a fire near the school!' -> FIRE
+PASS: 'There is a fire...' -> priority P0
+PASS: 'There is a fire...' -> isPotentialEmergency
+PASS: 'There is a fire...' -> confidence > 0
+PASS: 'Three people are trapped near the bridge.' -> TRAPPED_PERSON
+PASS: trapped-near-bridge -> priority P0
+PASS: trapped-near-bridge -> PERSON_COUNT entity '3 people'
+PASS: trapped-near-bridge -> LOCATION entity contains 'bridge'
+PASS: trapped-near-bridge -> EVENT entity 'trapped'
+PASS: unconscious+ambulance -> MEDICAL
+PASS: unconscious+ambulance -> priority P0
+PASS: unconscious+ambulance -> INJURY entity
+PASS: unconscious+ambulance -> MEDICAL_NEED entity
+PASS: 'There is no fire.' -> NORMAL_MESSAGE (negated)
+PASS: 'There is no fire.' -> requiresReview true
+PASS: 'There is no fire.' -> signal recorded, not discarded
+PASS: 'There is no fire.' -> the recorded signal is marked suppressed
+PASS: 'We need no help.' -> NORMAL_MESSAGE (multi-word negation defeats exact-phrase rule)
+PASS: 'Do not send help.' -> NORMAL_MESSAGE (negated assistance request)
+PASS: 'Do not send help.' -> requiresReview true
+PASS: 'The fire was extinguished.' -> NORMAL_MESSAGE (resolved)
+PASS: 'The fire was extinguished.' -> requiresReview true
+PASS: 'Is there a fire?' -> priority UNKNOWN (question, not a report)
+PASS: 'Is there a fire?' -> requiresReview true
+PASS: 'Is there a fire?' -> category still FIRE (not silently discarded)
+PASS: 'Is anyone trapped?' -> priority UNKNOWN
+PASS: 'Is anyone trapped?' -> requiresReview true
+PASS: 'Someone reported a fire yesterday.' -> priority capped at P2
+PASS: 'Someone reported a fire yesterday.' -> requiresReview true
+PASS: 'Someone reported a fire yesterday.' -> category still FIRE
+PASS: identical input -> identical category/priority/confidence (deterministic)
+PASS: empty input -> UNKNOWN, not a crash
+PASS: empty input -> requiresReview true
+PASS: blank input -> UNKNOWN, not a crash
+PASS: unsupported language 'xx' -> UNKNOWN, not a wrong-language guess
+PASS: unsupported language 'xx' -> requiresReview true
+PASS: unsupported language 'xx' -> reason names the language gap
+PASS: very long input (500 repeats) does not crash and still classifies FIRE
+PASS: duplicate message handling: both calls succeed independently
+PASS: severe entity escalates NATURAL_DISASTER from P1 base to P0
+PASS: plain non-emergency text -> NORMAL_MESSAGE
+PASS: plain non-emergency text -> priority P4
+PASS: plain non-emergency text -> requiresReview false
+
+=== 43 checks run, 43 passed, 0 failed ===

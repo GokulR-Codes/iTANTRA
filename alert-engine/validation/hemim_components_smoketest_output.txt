@@ -1,0 +1,24 @@
+=== HEMIM component-level runtime smoke test ===
+PASS: normalizer lowercases/collapses whitespace, preserves punctuation+digits
+PASS: negation cue within window is detected
+PASS: no negation cue present is not falsely flagged
+PASS: negation cue does not cross a sentence boundary
+PASS: question mark detected as question form
+PASS: historical cue detected
+PASS: resolved cue detected
+PASS: base priority: TRAPPED_PERSON -> P0
+PASS: base priority: FIRE -> P0
+PASS: base priority: EVACUATION -> P2
+PASS: base priority: GENERAL_ASSISTANCE -> P3
+PASS: base priority: NORMAL_MESSAGE -> P4
+PASS: base priority: UNKNOWN -> UNKNOWN
+PASS: severity escalates ACCIDENT P1 -> P0
+PASS: no severity entity leaves ACCIDENT at P1
+PASS: severity escalation does not apply to non-escalatable FIRE (already P0)
+PASS: zero weight -> zero confidence
+PASS: question penalty strictly reduces confidence
+PASS: confidence always bounded to [0,1]
+PASS: CriticalEntity rejects endIndex < startIndex
+PASS: EmergencySignal rejects a negative weight
+
+=== 21 checks run, 21 passed, 0 failed ===

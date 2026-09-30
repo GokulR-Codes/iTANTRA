@@ -1,0 +1,18 @@
+=== PacketFragmenter + SemanticPacketWireCodec runtime smoke test ===
+PASS: empty payload -> exactly one empty fragment
+PASS: empty payload fragment is marked final
+PASS: 250-byte payload with 100-byte budget -> 3 fragments
+PASS: fragments flagged correctly (fragmented, correct index/count, only last is final)
+PASS: fragments concatenate back to the exact original payload
+PASS: sequence numbers wrap 0xFFFE -> 0xFFFF -> 0x0000
+PASS: nextSequenceNumber reported correctly after wraparound
+PASS: more than 255 fragments is rejected
+PASS: SemanticPacket round-trip: tokenIds match
+PASS: SemanticPacket round-trip: ttlMs/sentenceId match
+PASS: SemanticPacket round-trip with residual payload
+PASS: truncated payload throws PacketFormatException, not a crash or a guess
+PASS: unmapped language -> UNKNOWN_LANG_CODE, not a guess
+PASS: UNKNOWN_LANG_CODE decodes back to 'und'
+PASS: known language round-trips through langCodeFor/langFor
+
+=== 15 checks run, 15 passed, 0 failed ===

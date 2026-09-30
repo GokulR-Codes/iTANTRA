@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Mic capture (Division C, §11) -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Wi-Fi Direct transport (Division D, §25) -->
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- BLE transport (Division D, §26). Two permission generations, both declared, because
+         minSdk=26 spans both eras (see android-app/ble/BlePermissions.kt's KDoc for why the
+         split exists and which role needs which subset):
+         - API 31+ (Android 12+): BLUETOOTH_SCAN/CONNECT/ADVERTISE, runtime-requested.
+         - API 26-30: legacy BLUETOOTH/BLUETOOTH_ADMIN, install-time "normal" permissions
+           (maxSdkVersion=30 so they are dropped on 31+, where they are superseded and,
+           for BLUETOOTH_ADMIN's scan/advertise implications specifically, would otherwise
+           be flagged by Play's pre-launch report as unnecessary). -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+    <!-- Pre-31 BLE scanning also required (coarse) location at the OS level even though this
+         app has no location feature — an Android platform quirk (BLE scan results could
+         theoretically infer location via beacon proximity), not an iTantra requirement. Scoped
+         to maxSdkVersion=30 and neverForLocation on 31+ is unnecessary because BLUETOOTH_SCAN
+         above already covers 31+ without this. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
+
+    <!-- Foreground session must survive backgrounding (§11, §28) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".ITantraApplication"
+        android:allowBackup="false"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.ITantra">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          One foreground service for the whole translation session (§11):
+          mic capture, STT, codec, transport, and TTS all run under this
+          service's lifecycle so Android does not tear the session down
+          mid-sentence when the app backgrounds.
+        -->
+        <service
+            android:name=".SessionService"
+            android:exported="false"
+            android:foregroundServiceType="microphone|connectedDevice" />
+
+    </application>
+</manifest>

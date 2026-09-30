@@ -1,0 +1,16 @@
+ble_logic_reference.py — 14/14 checks passed
+
+[PASS] MTU=23 (BLE 4.0 spec floor) correctly raises rather than silently producing a corrupt fragment (see DECISIONS.md #5)
+[PASS] minimum functional MTU for this header format is 30 (i.e. >= this is required; BLE spec floor of 23 is NOT enough)  (computed=30)
+[PASS] MTU=30 (minimum functional) yields exactly 1 byte of fragment payload  (got 1)
+[PASS] MTU=185 (realistic BLE 4.2+ negotiated value) yields far more fragment payload than the functional floor
+[PASS] fragmentation at a tight-but-functional MTU reassembles exactly  (78 fragments)
+[PASS] fragmentation at large MTU reassembles exactly  (2 fragments)
+[PASS] smaller functional MTU produces more (or equal) fragments than larger MTU  (small=78 big=2)
+[PASS] fragment count stays within the 1-byte §24 field (<=255) for a realistic message
+[PASS] initial window starts at 0
+[PASS] initial in-flight count equals window size
+[PASS] acking the first two in order slides the window forward by 2  (got 2)
+[PASS] out-of-order ack does not slide the window past a gap  (got 0)
+[PASS] filling the gap slides the window all the way past the out-of-order ack too  (got 3)
+[PASS] ack for a sequence number outside the window is ignored, not applied

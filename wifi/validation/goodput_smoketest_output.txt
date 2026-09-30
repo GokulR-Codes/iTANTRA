@@ -1,0 +1,25 @@
+Command:
+  kotlinc GoodputSmokeTest.kt -include-runtime -d smoketest.jar && java -jar smoketest.jar
+Compiler: real kotlinc-jvm 2.0.20 (JRE 21.0.10), downloaded from
+  https://github.com/JetBrains/kotlin/releases/download/v2.0.20/kotlin-compiler-2.0.20.zip
+  (GitHub release assets are reachable from this sandbox; services.gradle.org,
+  repo.maven.apache.org, dl.google.com, plugins.gradle.org are not — see
+  docs/KNOWN_ISSUES.md "2026-09-2x session" entry.)
+Date: 2026-09-22 (sandbox clock; see session notes)
+
+Output:
+PASS: empty window returns 0 bps
+PASS: single-sample uses window length as denominator (~1600 bps)
+PASS: 6 x 1000B samples over a 5000ms span is ~9600 bps
+PASS: sample counts shortly after arrival
+PASS: sample is pruned once outside the window
+PASS: zero-byte sample handled without crashing
+
+6 checks run, 6 passed, 0 failed
+
+Scope note: this validates the goodput sliding-window arithmetic in isolation
+(copied verbatim into a coroutine-free harness), NOT the real WifiUdpTransport
+class, which still cannot be compiled in this sandbox — see
+wifi_compile_reproduction.txt in this same directory for that separate,
+still-blocked result (unresolved kotlinx.coroutines.flow.{Flow,MutableSharedFlow},
+identical to the pre-existing finding in docs/PENDING_WORK_MASTER.md P0.2).

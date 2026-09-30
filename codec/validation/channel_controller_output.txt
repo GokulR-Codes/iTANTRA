@@ -1,0 +1,8 @@
+channel_controller_reference.py — 6/6 checks passed
+
+[PASS] excellent link climbs to HIGH_FIDELITY_RESIDUAL within 15 samples  (final=Mode.HIGH_FIDELITY_RESIDUAL)
+[PASS] mode is monotonically non-decreasing while link stays excellent
+[PASS] one bad sample from HIGH_FIDELITY steps down exactly one level (not straight to SAFE)  (got Mode.SEMANTIC_PLUS_RESIDUAL (EWMA smoothing should prevent single-sample overreaction))
+[PASS] thermal throttling forces SEMANTIC_SAFE even with an excellent link  (got Mode.SEMANTIC_SAFE)
+[PASS] battery <=10% forces SEMANTIC_SAFE even with an excellent link  (got Mode.SEMANTIC_SAFE)
+[PASS] noisy-but-good link makes a bounded number of transitions (not one per sample)  (transitions=1 out of 39 updates)

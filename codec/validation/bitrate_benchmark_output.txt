@@ -1,0 +1,86 @@
+======================================================================
+SEMANTIC CODEC — BITRATE COMPARISON (placeholder corpus, §35)
+======================================================================
+Corpus: 50 sentences, 10 languages
+Learned vocab size: 318 (including <unk>)
+BPE merges learned: 78
+Round-trip check: LOSSLESS for all 50 sentences (see assert above)
+
+Representation                    Total bits     Bytes    vs raw UTF-8
+----------------------------------------------------------------------
+Raw UTF-8 text                         15320    1915.0          100.0%
+Semantic tokens (varint, discovery-order IDs)        7376     922.0           48.1%
+Semantic tokens + Huffman (discovery-order)        4456     557.0           29.1%
+Semantic tokens (varint, FREQUENCY-sorted IDs)        6112     764.0           39.9%
+Semantic tokens + Huffman (frequency-sorted)        4456     557.0           29.1%
+
+Per-sentence detail (discovery-order IDs):
+  [hi] 'सहायता चाहिए'  utf8=272b  tokens=11  varint=104b
+  [hi] 'आग लगी है'  utf8=184b  tokens=4  varint=64b
+  [hi] 'तुरंत बाहर निकलो'  utf8=352b  tokens=12  varint=128b
+  [hi] 'पानी बढ़ रहा है'  utf8=312b  tokens=11  varint=120b
+  [hi] 'हम सुरक्षित हैं'  utf8=328b  tokens=7  varint=72b
+  [gu] 'મદદ જોઈએ છે'  utf8=232b  tokens=9  varint=88b
+  [gu] 'આગ લાગી છે'  utf8=208b  tokens=8  varint=80b
+  [gu] 'તરત બહાર નીકળો'  utf8=304b  tokens=14  varint=120b
+  [gu] 'પાણી વધી રહ્યું છે'  utf8=384b  tokens=15  varint=144b
+  [gu] 'અમે સુરક્ષિત છીએ'  utf8=352b  tokens=14  varint=136b
+  [mr] 'मदत हवी आहे'  utf8=232b  tokens=7  varint=80b
+  [mr] 'आग लागली आहे'  utf8=256b  tokens=7  varint=80b
+  [mr] 'लगेच बाहेर पडा'  utf8=304b  tokens=10  varint=112b
+  [mr] 'पाणी वाढत आहे'  utf8=280b  tokens=8  varint=96b
+  [mr] 'आम्ही सुरक्षित आहोत'  utf8=424b  tokens=9  varint=104b
+  [kn] 'ಸಹಾಯ ಬೇಕು'  utf8=200b  tokens=9  varint=136b
+  [kn] 'ಬೆಂಕಿ ಹತ್ತಿದೆ'  utf8=296b  tokens=7  varint=112b
+  [kn] 'ಕೂಡಲೇ ಹೊರಗೆ ಬನ್ನಿ'  utf8=376b  tokens=16  varint=248b
+  [kn] 'ನೀರು ಏರುತ್ತಿದೆ'  utf8=320b  tokens=8  varint=128b
+  [kn] 'ನಾವು ಸುರಕ್ಷಿತರಾಗಿದ್ದೇವೆ'  utf8=536b  tokens=21  varint=336b
+  [ml] 'സഹായം വേണം'  utf8=224b  tokens=9  varint=144b
+  [ml] 'തീ പിടിച്ചു'  utf8=248b  tokens=11  varint=168b
+  [ml] 'ഉടൻ പുറത്തിറങ്ങുക'  utf8=392b  tokens=16  varint=240b
+  [ml] 'വെള്ളം ഉയരുന്നു'  utf8=344b  tokens=14  varint=224b
+  [ml] 'ഞങ്ങൾ സുരക്ഷിതരാണ്'  utf8=416b  tokens=17  varint=256b
+  [ta] 'உதவி வேண்டும்'  utf8=296b  tokens=11  varint=168b
+  [ta] 'தீ பிடித்தது'  utf8=272b  tokens=11  varint=168b
+  [ta] 'உடனே வெளியேறுங்கள்'  utf8=416b  tokens=14  varint=216b
+  [ta] 'தண்ணீர் உயர்கிறது'  utf8=392b  tokens=11  varint=176b
+  [ta] 'நாங்கள் பாதுகாப்பாக இருக்கிறோம்'  utf8=712b  tokens=19  varint=296b
+  [te] 'సహాయం కావాలి'  utf8=272b  tokens=12  varint=184b
+  [te] 'మంట అంటుకుంది'  utf8=296b  tokens=9  varint=136b
+  [te] 'వెంటనే బయటకు వెళ్లండి'  utf8=472b  tokens=17  varint=264b
+  [te] 'నీరు పెరుగుతోంది'  utf8=368b  tokens=13  varint=208b
+  [te] 'మేము సురక్షితంగా ఉన్నాము'  utf8=544b  tokens=21  varint=328b
+  [or] 'ସାହାଯ୍ୟ ଦରକାର'  utf8=296b  tokens=11  varint=128b
+  [or] 'ନିଆଁ ଲାଗିଛି'  utf8=248b  tokens=10  varint=112b
+  [or] 'ତୁରନ୍ତ ବାହାରକୁ ଯାଆନ୍ତୁ'  utf8=496b  tokens=14  varint=176b
+  [or] 'ପାଣି ବଢୁଛି'  utf8=224b  tokens=8  varint=96b
+  [or] 'ଆମେ ସୁରକ୍ଷିତ ଅଛୁ'  utf8=352b  tokens=15  varint=168b
+  [bn] 'সাহায্য দরকার'  utf8=296b  tokens=14  varint=112b
+  [bn] 'আগুন লেগেছে'  utf8=248b  tokens=9  varint=88b
+  [bn] 'এখনই বাইরে যান'  utf8=304b  tokens=12  varint=120b
+  [bn] 'জল বাড়ছে'  utf8=200b  tokens=7  varint=72b
+  [bn] 'আমরা নিরাপদ আছি'  utf8=328b  tokens=14  varint=128b
+  [en] 'help needed'  utf8=88b  tokens=9  varint=96b
+  [en] 'there is a fire'  utf8=120b  tokens=9  varint=104b
+  [en] 'evacuate now'  utf8=96b  tokens=11  varint=104b
+  [en] 'water is rising'  utf8=120b  tokens=12  varint=120b
+  [en] 'we are safe'  utf8=88b  tokens=8  varint=88b
+
+English-only check (the sentences that regressed before the fix):
+  'help needed': utf8=88b  before=96b  after=88b  [FIXED]
+  'there is a fire': utf8=120b  before=104b  after=80b  [FIXED]
+  'evacuate now': utf8=96b  before=104b  after=120b  [STILL WORSE THAN UTF-8]
+  'water is rising': utf8=120b  before=120b  after=112b  [FIXED]
+  'we are safe': utf8=88b  before=88b  after=72b  [FIXED]
+
+======================================================================
+NOT MEASURED IN THIS RUN (do not report these as tested):
+======================================================================
+- Opus-equivalent AUDIO baseline: requires real recorded speech
+  + libopus; unavailable in this offline sandbox. §35 still
+  requires it before any 'beats Opus' claim ships. TODO.md.
+- Behavior under injected packet loss (that's protocol/'s
+  RESULTS.md, not this file — this file is text-side only).
+- Accuracy/meaning-preservation on a REAL corpus at scale —
+  this is 50 hand-written sentences, not a speaker-disjoint
+  Indic evaluation set. Gate 4/Gate 9 require the real one.

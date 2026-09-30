@@ -1,0 +1,12 @@
+wifi/src/main/kotlin/com/itantra/wifi/WifiUdpTransport.kt:11:8: error: unresolved reference 'kotlinx'.
+import kotlinx.coroutines.flow.Flow
+       ^^^^^^^
+wifi/src/main/kotlin/com/itantra/wifi/WifiUdpTransport.kt:12:8: error: unresolved reference 'kotlinx'.
+import kotlinx.coroutines.flow.MutableSharedFlow
+       ^^^^^^^
+wifi/src/main/kotlin/com/itantra/wifi/WifiUdpTransport.kt:76:37: error: unresolved reference 'MutableSharedFlow'.
+    private val _incomingMessages = MutableSharedFlow<ReassembledMessage>(extraBufferCapacity = 64)
+                                    ^^^^^^^^^^^^^^^^^
+wifi/src/main/kotlin/com/itantra/wifi/WifiUdpTransport.kt:78:27: error: unresolved reference 'Flow'.
+    val incomingMessages: Flow<ReassembledMessage> = _incomingMessages
+                          ^^^^

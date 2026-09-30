@@ -1,0 +1,5 @@
+wifi_loopback_reference.py — 3/3 checks passed
+
+[PASS] small single-fragment message survives real UDP loopback  (sent 11B, got 11B)
+[PASS] large multi-fragment message (3 fragments) reassembles exactly  (sent 1220B, got 1220B)
+[PASS] empty-payload message round trips over real UDP loopback

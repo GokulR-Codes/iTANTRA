@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">iTantra</string>
+    <!-- Added this session for SessionService's foreground-service notification
+         (ServiceCompat.startForeground — required once a session is active per
+         AndroidManifest.xml's foregroundServiceType="microphone|connectedDevice"). -->
+    <string name="session_notification_text">Session active — listening for push-to-talk and incoming messages</string>
+</resources>

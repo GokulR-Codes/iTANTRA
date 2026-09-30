@@ -1,0 +1,1 @@
+(no output = zero errors/warnings from kotlinc 2.0.20 compiling core+alert-engine+codec+protocol+orchestrator together, 101 classes; exit code 0)

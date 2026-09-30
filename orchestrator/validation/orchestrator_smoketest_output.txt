@@ -1,0 +1,25 @@
+=== :orchestrator end-to-end runtime smoke test ===
+PASS: plain message: receiver got the exact original text
+PASS: plain message: receiver got the correct language
+PASS: plain message: envelope classified NORMAL_MESSAGE
+PASS: plain message: mapped to NORMAL_BASE queue priority
+PASS: plain message: sender sees ACKNOWLEDGED after the real ACK round-trip
+PASS: emergency message: sender-side HEMIM classified FIRE
+PASS: emergency message: mapped to ALERT_BASE queue priority
+PASS: emergency message: receiver independently re-classified the SAME category from reconstructed text
+PASS: emergency message: sender ACKNOWLEDGED
+PASS: fragmented message: multiple UDP-sized frames were actually sent (MTU=80 forces fragmentation)
+PASS: fragmented message: reassembled text exactly matches the original
+PASS: corrupted frame: not delivered as a message
+PASS: corrupted frame: reported via onDecodeError, not swallowed
+PASS: duplicate frame: delivered once on first arrival
+PASS: duplicate frame: NOT delivered a second time (ReplayWindow caught it)
+PASS: dropped ACK: message still reached the receiver
+PASS: dropped ACK: sender does NOT claim ACKNOWLEDGED without a real ACK
+PASS: dropped ACK: sender status is TRANSMITTING, an honest in-flight state
+PASS: expiration: starts QUEUED/TRANSMITTING, not already EXPIRED
+PASS: expiration: expired entry is not counted as retried
+PASS: expiration: status becomes EXPIRED once TTL has passed
+PASS: malformed input: two bad frames each reported, zero crashes
+
+=== 22 checks run, 22 passed, 0 failed ===

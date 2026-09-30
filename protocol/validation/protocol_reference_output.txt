@@ -1,0 +1,20 @@
+protocol_reference.py — 18/18 checks passed
+
+[PASS] crc16: empty input == 0xFFFF (init value)
+[PASS] crc16: '123456789' == 0x29B1 (standard check value)  (got 0x29B1)
+[PASS] header is exactly 24 bytes
+[PASS] encoded size == header(24) + payload + trailer(2)  (encoded=44 expected=44)
+[PASS] round trip preserves all fields
+[PASS] epoch-scale timestamps truncate to low 32 bits on the wire (expected — this is why timestampMs must be session-relative, not epoch)  (sent=1735000000000 received=4128179712)
+[PASS] empty payload round trips
+[PASS] corrupted payload byte is rejected
+[PASS] truncated packet is rejected
+[PASS] bad magic nibble is rejected
+[PASS] replay window: increasing sequence all accepted
+[PASS] replay window: exact duplicate rejected
+[PASS] replay window: far-old sequence rejected
+[PASS] replay window: late in-window packet accepted once, then rejected
+[PASS] loss_pct=0: all non-dropped, uncorrupted packets delivered exactly once  (sent=500 arrived_at_wire=500 delivered=500)
+[PASS] loss_pct=5: all non-dropped, uncorrupted packets delivered exactly once  (sent=500 arrived_at_wire=472 delivered=472)
+[PASS] loss_pct=10: all non-dropped, uncorrupted packets delivered exactly once  (sent=500 arrived_at_wire=447 delivered=447)
+[PASS] loss_pct=20: all non-dropped, uncorrupted packets delivered exactly once  (sent=500 arrived_at_wire=408 delivered=408)

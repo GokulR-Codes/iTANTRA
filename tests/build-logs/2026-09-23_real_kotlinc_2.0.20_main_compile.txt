@@ -1,0 +1,60 @@
+Session: 2026-09-23, independent verification pass following the SIH iTantra
+master audit prompt.
+
+Finding: this sandbox's network allow-list blocks services.gradle.org,
+repo.maven.apache.org, dl.google.com, and plugins.gradle.org (all return
+HTTP 403, x-deny-reason: host_not_allowed — reconfirmed this session,
+identical to every prior session's finding). BUT github.com,
+codeload.github.com, and release-assets.githubusercontent.com are reachable,
+and JetBrains publishes the real kotlinc distribution as a GitHub release
+asset. This was not tried in any prior session. Used it to replace the prior
+sessions' ancient apt-installed Kotlin 1.3.31 + hand-patched-source approach
+with the ACTUAL target compiler version.
+
+Commands:
+  curl -sL "https://github.com/JetBrains/kotlin/releases/download/v2.0.20/kotlin-compiler-2.0.20.zip" -o kotlinc.zip
+  unzip kotlinc.zip -d /opt/
+  /opt/kotlinc/bin/kotlinc -version
+    -> info: kotlinc-jvm 2.0.20 (JRE 21.0.10+7-Ubuntu-124.04)
+
+  # All 34 main-source .kt files across the 9 pure-Kotlin/JVM modules
+  # (core, vad, language-id, stt, tts, codec, protocol, bluetooth, benchmark),
+  # UNMODIFIED (no API-renaming patches, unlike the prior sessions' 1.3.31 workaround):
+  kotlinc @all_main_files.txt -d main.jar
+    -> exit 0, zero errors, zero warnings, 102 classes emitted.
+
+Modules NOT included (and why):
+  - wifi: real kotlinx-coroutines-core:1.8.1 dependency, unavailable
+    (Maven Central blocked). Isolated compile attempt against the same
+    main.jar classpath reproduces exactly 4 errors, all
+    "unresolved reference 'kotlinx'"/"unresolved reference 'Flow'" /
+    "unresolved reference 'MutableSharedFlow'" at the two import lines and
+    their two usage sites in WifiUdpTransport.kt — see
+    wifi/validation/wifi_compile_reproduction.txt. This is a dependency
+    availability gap, not a code defect: every non-coroutine line in that
+    same file compiles fine (confirmed by removing the two Flow-typed
+    members in a scratch copy and recompiling clean — scratch copy only,
+    not committed).
+  - audio, alert-engine, android-app: require the Android SDK
+    (com.android.library / com.android.application plugins), which needs
+    dl.google.com (blocked) and an installed SDK (not present in this
+    sandbox regardless of network). Not attempted; no plain-JVM substitute
+    exists for AudioRecord/AudioTrack/Activity/Service.
+
+What this does and does not prove (same standard as
+docs/MASTER_INTEGRATION_AUDIT.md §4, applied with a materially stronger
+toolchain this time):
+  - DOES prove: the 34 files' actual, unmodified, currently-committed source
+    is syntactically and type-correct under the REAL target Kotlin version
+    (2.0.20), not an approximation under a 5-major-versions-older compiler
+    with manually patched stdlib calls. This is strictly better evidence
+    than every prior session's equivalent claim.
+  - Does NOT prove ./gradlew build succeeds (Gradle itself, AGP, and
+    dependency resolution are still never exercised here — the compiler
+    invocation above bypasses Gradle entirely).
+  - Does NOT prove anything about JUnit test execution (junit-jupiter jars
+    are also Maven-Central-only in this sandbox; not attempted to find an
+    alternate source this session, low priority relative to the main-source
+    verification).
+  - Does NOT change the wifi/audio/alert-engine/android-app findings at all
+    — those remain exactly as documented in PENDING_WORK_MASTER.md P0.1-P0.3.
